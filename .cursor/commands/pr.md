@@ -44,6 +44,76 @@
       "name": "Generate PR Template",
       "description": "Create a well-structured PR template.",
       "prompt": "Generate a clean and professional pull request template in Markdown with sections for description, motivation, changes, testing steps, and screenshots."
+    },
+    {
+      "name": "Review React Component",
+      "description": "Review React component code for best practices, hooks usage, and performance.",
+      "prompt": "Review this React component code. Check for: proper hooks usage, performance issues (unnecessary re-renders, missing memoization), prop types/TypeScript types, code structure, and React best practices. Suggest improvements.\n\n{{selection}}"
+    },
+    {
+      "name": "Check Accessibility",
+      "description": "Analyze code for accessibility (a11y) issues and WCAG compliance.",
+      "prompt": "Analyze this code for accessibility issues. Check for: proper ARIA attributes, keyboard navigation, color contrast, semantic HTML, focus management, and WCAG compliance. Suggest specific improvements.\n\n{{selection}}"
+    },
+    {
+      "name": "Optimize CSS/Tailwind",
+      "description": "Review and optimize CSS or Tailwind classes for best practices.",
+      "prompt": "Review and optimize this CSS or Tailwind code. Check for: unused styles, proper responsive breakpoints, CSS specificity issues, modern CSS features, and performance. Suggest improvements with explanations.\n\n{{selection}}"
+    },
+    {
+      "name": "Performance Audit",
+      "description": "Identify performance bottlenecks and optimization opportunities.",
+      "prompt": "Analyze this code for performance issues. Look for: heavy re-renders, large bundle sizes, inefficient algorithms, memory leaks, unnecessary DOM manipulations, and lazy loading opportunities. Provide actionable recommendations.\n\n{{selection}}"
+    },
+    {
+      "name": "Mobile Responsive Check",
+      "description": "Review responsiveness across different screen sizes.",
+      "prompt": "Review this code for mobile responsiveness. Check for: proper viewport settings, responsive units (rem, %, vw/vh), media queries, flexible layouts, touch-friendly interactions, and mobile-first approach. Suggest improvements for tablets and mobile devices.\n\n{{selection}}"
+    },
+    {
+      "name": "Fix TypeScript Errors",
+      "description": "Fix TypeScript type errors and improve type safety.",
+      "prompt": "Review and fix TypeScript errors in this code. Improve type definitions, add proper interfaces, fix type narrowing issues, and enhance type safety while maintaining functionality.\n\n{{selection}}"
+    },
+    {
+      "name": "Debug Console Errors",
+      "description": "Help debug JavaScript/console errors.",
+      "prompt": "Analyze this code and the console error message. Identify the root cause, explain why the error occurs, and provide a fixed version with clear comments explaining the solution.\n\nError: {{selection}}"
+    },
+    {
+      "name": "Review API Integration",
+      "description": "Review API calls and data fetching logic.",
+      "prompt": "Review this API integration code. Check for: proper error handling, loading states, caching strategy, request optimization, data validation, and security (headers, CORS). Suggest improvements.\n\n{{selection}}"
+    },
+    {
+      "name": "Optimize State Management",
+      "description": "Review and improve state management (Context, Redux, Zustand, etc.).",
+      "prompt": "Review this state management code. Check for: unnecessary re-renders, proper state structure, efficient updates, selector optimizations, and architectural patterns. Suggest improvements for better performance and maintainability.\n\n{{selection}}"
+    },
+    {
+      "name": "Add Error Boundaries",
+      "description": "Add React error boundary to component.",
+      "prompt": "Add proper error handling and error boundaries to this React component. Include fallback UI for graceful error display and user experience.\n\n{{selection}}"
+    },
+    {
+      "name": "Convert to TypeScript",
+      "description": "Convert JavaScript code to TypeScript with proper types.",
+      "prompt": "Convert this JavaScript code to TypeScript. Add proper type annotations, interfaces, and type safety while maintaining all functionality.\n\n{{selection}}"
+    },
+    {
+      "name": "Generate Component Tests",
+      "description": "Generate unit tests for a React component.",
+      "prompt": "Generate comprehensive unit tests for this React component using React Testing Library. Include tests for user interactions, edge cases, and accessibility.\n\n{{selection}}"
+    },
+    {
+      "name": "Add Loading States",
+      "description": "Add proper loading and skeleton states to components.",
+      "prompt": "Add loading states, skeleton screens, and loading indicators to this component. Ensure smooth user experience during data fetching and async operations.\n\n{{selection}}"
+    },
+    {
+      "name": "Refactor Component",
+      "description": "Refactor component for better readability and maintainability.",
+      "prompt": "Refactor this component to improve code quality. Extract smaller components, remove code duplication, improve naming, and enhance maintainability while keeping the same functionality.\n\n{{selection}}"
     }
   ]
 }
