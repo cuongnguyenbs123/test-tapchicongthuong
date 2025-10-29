@@ -9,14 +9,18 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import QuizCard from '../../components/quiz/QuizCard';
 import Modal from '../../components/common/Modal';
+import RegistrationForm from '../../components/auth/RegistrationForm';
 import { fetchQuizzes } from '../../services/quizService';
+import { useAuth } from '../../contexts/AuthContext';
 
 const HomePage = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('intro');
   const navigate = useNavigate();
+  const { isRegistered, register } = useAuth();
 
   useEffect(() => {
     loadQuizzes();
@@ -33,7 +37,11 @@ const HomePage = () => {
 
   const handleStartQuiz = (quiz) => {
     setSelectedQuiz(quiz);
-    setIsModalOpen(true);
+    if (isRegistered) {
+      setIsModalOpen(true);
+    } else {
+      setIsRegistrationModalOpen(true);
+    }
   };
 
   const handleStartQuizNow = () => {
@@ -41,6 +49,18 @@ const HomePage = () => {
       setIsModalOpen(false);
       navigate(`/quiz/${selectedQuiz.id}`);
     }
+  };
+
+  const handleRegistrationSuccess = (userData) => {
+    register(userData);
+    setIsRegistrationModalOpen(false);
+    // Show intro modal after successful registration
+    setIsModalOpen(true);
+  };
+
+  const handleRegistrationCancel = () => {
+    setIsRegistrationModalOpen(false);
+    setSelectedQuiz(null);
   };
 
   const tabs = [
@@ -108,6 +128,30 @@ const HomePage = () => {
             <QuizCard key={quiz.id} quiz={quiz} onStart={() => handleStartQuiz(quiz)} />
           ))}
         </div>
+
+        {/* Registration Modal */}
+        <Modal isOpen={isRegistrationModalOpen} onClose={handleRegistrationCancel}>
+          <div className="p-8">
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-2xl font-bold text-gray-800 pr-8">
+                Đăng ký tham gia cuộc thi
+              </h2>
+              <button
+                onClick={handleRegistrationCancel}
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="mb-4 text-gray-600">
+              <p>Vui lòng điền thông tin để tiếp tục tham gia cuộc thi.</p>
+            </div>
+            <RegistrationForm
+              onSuccess={handleRegistrationSuccess}
+              onCancel={handleRegistrationCancel}
+            />
+          </div>
+        </Modal>
 
         {/* Introduction Modal */}
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>

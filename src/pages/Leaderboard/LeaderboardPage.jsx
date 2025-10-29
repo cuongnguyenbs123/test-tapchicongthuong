@@ -7,7 +7,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/layout/Sidebar';
-import { fetchLeaderboard } from '../../services/quizService';
+import { fetchLeaderboard } from '../../services/leaderboardService';
 
 const LeaderboardPage = () => {
   const { quizId } = useParams();
@@ -16,14 +16,15 @@ const LeaderboardPage = () => {
 
   useEffect(() => {
     loadLeaderboard();
-  }, []);
+  }, [quizId]);
 
   const loadLeaderboard = async () => {
     try {
-      const data = await fetchLeaderboard();
+      const data = await fetchLeaderboard(quizId);
       setLeaderboard(data);
     } catch (error) {
       console.error('Error loading leaderboard:', error);
+      setLeaderboard([]);
     }
   };
 

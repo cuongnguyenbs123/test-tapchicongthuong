@@ -11,34 +11,27 @@ import QuizHeader from '../../components/quiz/QuizHeader';
 import QuestionCard from '../../components/quiz/QuestionCard';
 import Modal from '../../components/common/Modal';
 import { fetchQuestions, submitAnswers } from '../../services/quizService';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useAuth } from '../../contexts/AuthContext';
 
 const QuizPage = () => {
   const { quizId } = useParams();
   const navigate = useNavigate();
+  const { user, isRegistered } = useAuth();
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [startTime] = useState(Date.now());
   const [timeRemaining, setTimeRemaining] = useState(30 * 60); // 30 minutes in seconds
   const [showSubmitModal, setShowSubmitModal] = useState(false);
-  const [user] = useLocalStorage('quiz_logged_user', null);
 
   useEffect(() => {
-    loadQuestions();
-    // Initialize user if not set
-    if (!user) {
-      const defaultUser = {
-        id: 4944,
-        fullname: "Nguyễn Đại Cương",
-        phone: "0392536967",
-        email: "cuong2000bs@gmail.com",
-        gender: "male"
-      };
-      localStorage.setItem('quiz_logged_user', JSON.stringify(defaultUser));
-      localStorage.setItem('quiz_session_active', 'true');
+    // Redirect to home if not registered
+    if (!isRegistered || !user) {
+      navigate('/');
+      return;
     }
-  }, []);
+    loadQuestions();
+  }, [isRegistered, user, navigate]);
 
   useEffect(() => {
     const timer = setInterval(() => {

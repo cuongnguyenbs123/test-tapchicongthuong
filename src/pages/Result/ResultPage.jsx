@@ -7,13 +7,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/layout/Sidebar';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useAuth } from '../../contexts/AuthContext';
 
 const ResultPage = () => {
   const { quizId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [result, setResult] = useState(null);
-  const [user] = useLocalStorage('quiz_logged_user', null);
 
   useEffect(() => {
     loadResult();

@@ -4,6 +4,8 @@
  * Provides: Quiz list, questions, and submission functionality
  */
 
+import api from './api';
+
 // Sample quiz data
 const sampleQuizzes = [
   {
@@ -156,32 +158,50 @@ export const fetchQuestions = async (quizId) => {
  * Submit quiz answers
  * @param {number} quizId - The quiz ID
  * @param {Object} answers - Object mapping question IDs to selected answers
+ * @param {Array} questions - Array of question objects
  * @param {number} timeSpent - Time spent on quiz in seconds
  * @returns {Promise<Object>} Result object with score and details
  */
 export const submitAnswers = async (quizId, answers, questions, timeSpent) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      let correctCount = 0;
-      
-      questions.forEach((q) => {
-        if (answers[q.id] !== undefined && answers[q.id] === q.correctAnswer) {
-          correctCount++;
-        }
-      });
-      
-      const totalQuestions = questions.length;
-      const score = Math.round((correctCount / totalQuestions) * 100);
-      
-      resolve({
-        score: score * 10, // Total score points
-        totalQuestions: totalQuestions,
-        correctAnswers: correctCount,
-        percentage: score,
-        timeSpent: timeSpent
-      });
-    }, 500);
-  });
+  try {
+    // Get user from localStorage
+    const user = JSON.parse(localStorage.getItem('quiz_logged_user') || 'null');
+    
+    if (!user?.id) {
+      throw new Error('User not found');
+    }
+
+    const response = await api.post('/quiz/submit', {
+      quizId,
+      userId: user.id,
+      answers,
+      questions,
+      timeSpent
+    });
+    
+    return response;
+  } catch (error) {
+    console.error('Error submitting quiz:', error);
+    // Fallback to local calculation if API fails
+    let correctCount = 0;
+    
+    questions.forEach((q) => {
+      if (answers[q.id] !== undefined && answers[q.id] === q.correctAnswer) {
+        correctCount++;
+      }
+    });
+    
+    const totalQuestions = questions.length;
+    const score = Math.round((correctCount / totalQuestions) * 100);
+    
+    return {
+      score: score * 10,
+      totalQuestions: totalQuestions,
+      correctAnswers: correctCount,
+      percentage: score,
+      timeSpent: timeSpent
+    };
+  }
 };
 
 /**
